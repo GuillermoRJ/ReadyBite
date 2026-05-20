@@ -1,0 +1,8 @@
+# Dependencias
+node_modules/
+jspm_packages/
+
+# Variables de entorno
+.env
+.env.test
+.env.local
