@@ -15,29 +15,42 @@ const orderSchema = new mongoose.Schema(
           },
           name: { type: String, required: true },
           price: { type: Number, required: true },
-          sauce: {
-            type: String,
-            enum: ["mitad", "toda", "ninguna"],
-            default: "ninguna",
-          },
-
-          complements: [
-            {
-              _id: false,
-              complemento_id: {
-                type: Schema.Types.ObjectId,
-                ref: "Complemento",
-                required: true,
-              },
-              name: { type: String, required: true },
-            },
-          ],
+          
+          description: {
+            required: true,
+            
+          }
         },
       ],
+      complements: {type: [
+        {
+          _id: false,
+          producto_id: {
+            type: Schema.Types.ObjectId,
+            ref: "Producto",
+            required: true,
+          },
+          name: { type: String, required: true },
+          price: { type: Number, required: true },
+          
+          description: {
+            required: true,
+            
+          }
+        },
+      ],
+
+      },
+      salsa: {
+            type: String,
+            enum: ["mitad", "toda", "ninguna"],
+            default: "toda",
+          },
       validate: [
         (v) => v.length > 0,
         "La orden debe tener al menos un producto",
       ],
+
     },
 
     total_order: {

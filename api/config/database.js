@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import Client from "../models/client.js";
+import Customer from "../models/customer.js";
 import Product from "../models/product.js";
 
-const seedClients = async () => {
-  const count = await Client.countDocuments();
+const seedCustomers = async () => {
+  const count = await Customer.countDocuments();
   if (count === 0) {
-    await Client.insertMany([
+    await Customer.insertMany([
       {
         id: "4493914627",
         name: "Guillermo Jáuregui",
@@ -42,6 +42,30 @@ const seedProducts = async () => {
         name: "Ramen Base",
         price: 95,
       },
+      {
+        name: "Pork belly",
+        price: 20,
+      },
+      {
+        name: "Gyoza",
+        price: 20,
+      },
+      {
+        name: "Huevo",
+        price: 15,
+      },
+      {
+        name: "Queso",
+        price: 15,
+      },
+      {
+        name: "Cebollin",
+        price: 5,
+      },
+      {
+        name: "Espinaca",
+        price: 5,
+      },
     ]);
   }
 };
@@ -52,7 +76,7 @@ const dbConnection = async () => {
     const dbName = process.env.MONGODB_DB;
     await mongoose.connect(`${dbURI}/${dbName}`);
     console.log(`MongoDB is connected`);
-    await seedClients();
+    await seedCustomers();
     await seedProducts();
     console.log("Default menu and clients created");
   } catch (error) {
