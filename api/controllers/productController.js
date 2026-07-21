@@ -15,7 +15,56 @@ const createProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const getProductById = async (req, res) => {
+  try {
+    const user = await Product.findOne({ id: req.params.id }).populate(
+      "id",
+      "name",
+    );
+    if (!user)
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
+const getProducts = async (req, res) => {
+  const { page = 1, limit = 10, sort = "created_at" } = req.query;
+  try {
+    const products = await Product.find()
+      .sort({ [sort]: 1 })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .populate("id", "name");
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const editProduct = async (req, res) => {
+  try {
+    const updates = req.body;
+    const targetId = Number(req.params.id);
+    const product = await Product.findOneAndUpdate({ id: targetId }, updates, {
+      new: true,
+    });
+    if (!product)
+      return res.status(404).json({ message: "Producte no encontrado" });
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-
-export { createProduct };
+const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findOneAndDelete({ id: req.params.id });
+    if (!product)
+      return res.status(404).json({ message: "Producte no encontrado" });
+    res.status(200).json({ message: "Producte eliminado" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export { createProduct, getProductById, getProducts, editProduct, deleteProduct };
