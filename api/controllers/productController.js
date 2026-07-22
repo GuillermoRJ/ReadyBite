@@ -15,6 +15,7 @@ const createProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getProductById = async (req, res) => {
   try {
     const user = await Product.findOne({ id: req.params.id }).populate(
@@ -36,7 +37,7 @@ const getProducts = async (req, res) => {
       .sort({ [sort]: 1 })
       .limit(limit * 1)
       .skip((page - 1) * limit)
-      .populate("id", "name");
+      .populate("name");
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -67,4 +68,10 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-export { createProduct, getProductById, getProducts, editProduct, deleteProduct };
+export {
+  createProduct,
+  getProductById,
+  getProducts,
+  editProduct,
+  deleteProduct,
+};
