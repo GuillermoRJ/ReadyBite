@@ -22,7 +22,7 @@ const getProductById = async (req, res) => {
       "name",
     );
     if (!user)
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "Producto no encontrado" });
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -33,9 +33,6 @@ const getProducts = async (req, res) => {
   const { page = 1, limit = 10, sort = "created_at" } = req.query;
   try {
     const products = await Product.find()
-      .sort({ [sort]: 1 })
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
       .populate("productId","name");
     res.status(200).json(products);
   } catch (error) {
@@ -59,7 +56,7 @@ const editProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findOneAndDelete({ productid: req.params.id });
+    const product = await Product.findOneAndDelete({ productId: req.params.id });
     if (!product)
       return res.status(404).json({ message: "Producto no encontrado" });
     res.status(200).json({ message: "Producto eliminado" });

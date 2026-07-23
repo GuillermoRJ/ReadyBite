@@ -27,7 +27,7 @@ const getCustomerById = async (req, res) => {
       "name",
     );
     if (!user)
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "Cliente no encontrado" });
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -56,7 +56,7 @@ const editCustomer = async (req, res) => {
       new: true,
     });
     if (!customer)
-      return res.status(404).json({ message: "Customere no encontrado" });
+      return res.status(404).json({ message: "Cliente no encontrado" });
     res.status(200).json(customer);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -67,8 +67,8 @@ const deleteCustomer = async (req, res) => {
   try {
     const customer = await Customer.findOneAndDelete({ id: req.params.id });
     if (!customer)
-      return res.status(404).json({ message: "Customere no encontrado" });
-    res.status(200).json({ message: "Customere eliminado" });
+      return res.status(404).json({ message: "Cliente no encontrado" });
+    res.status(200).json({ message: "Cliente eliminado" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
