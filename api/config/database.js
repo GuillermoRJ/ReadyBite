@@ -25,68 +25,67 @@ const seedCustomers = async () => {
 const seedProducts = async () => {
   const count = await Product.countDocuments();
   if (count === 0) {
-    await Product.insertMany([
+    const InitProducts = [
       {
-        productId: 1,
         name: "Ramen Tradicional",
         price: 140,
-        type: "producto"
+        type: "producto",
       },
       {
-        productId: 2,
         name: "Ramen Gyoza",
         price: 170,
-        type: "producto"
+        type: "producto",
       },
       {
-        productId: 3,
         name: "Ramen Sin Prote",
         price: 115,
-        type: "producto"
+        type: "producto",
       },
       {
-        productId: 4,
         name: "Ramen Base",
         price: 95,
-        type: "producto"
+        type: "producto",
       },
       {
-        productId: 5,
         name: "Pork belly",
         price: 20,
-        type: "complemento"
+        type: "complemento",
       },
       {
-        productId: 6,
         name: "Gyoza",
         price: 20,
-        type: "complemento"
+        type: "complemento",
       },
       {
-        productId: 7,
         name: "Huevo",
         price: 15,
-        type: "complemento"
+        type: "complemento",
       },
       {
-        productId: 8,
         name: "Queso",
         price: 15,
-        type: "complemento"
+        type: "complemento",
       },
       {
-        productId: 9,
         name: "Cebollin",
         price: 5,
-        type: "complemento"
+        type: "complemento",
       },
       {
-        productId: 10,
         name: "Espinaca",
         price: 5,
-        type: "complemento"
+        type: "complemento",
       },
-    ]);
+    ];
+
+    for (const product of InitProducts) {
+      try {
+        await Product.create(product);
+        console.log(`✅ ${product.name} guardado con éxito.`);
+      } catch (error) {
+        console.error(`❌ Falló al guardar ${product.name}:`, error.message);
+      }
+    }
   }
 };
 

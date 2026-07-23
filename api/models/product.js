@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Counter from "./counter.js";
+import { autoIncrementPlugin } from "../middlewares/autoIncrement.js";
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-productSchema.plugin(AutoIncrement, { inc_field: 'productId' });
+productSchema.plugin(autoIncrementPlugin, { inc_field: "productId" });
 
 const Product = mongoose.model("Product", productSchema);
 
