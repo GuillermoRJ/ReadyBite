@@ -27,44 +27,64 @@ const seedProducts = async () => {
   if (count === 0) {
     await Product.insertMany([
       {
+        productId: 1,
         name: "Ramen Tradicional",
         price: 140,
+        type: "producto"
       },
       {
+        productId: 2,
         name: "Ramen Gyoza",
         price: 170,
+        type: "producto"
       },
       {
+        productId: 3,
         name: "Ramen Sin Prote",
         price: 115,
+        type: "producto"
       },
       {
+        productId: 4,
         name: "Ramen Base",
         price: 95,
+        type: "producto"
       },
       {
+        productId: 5,
         name: "Pork belly",
         price: 20,
+        type: "complemento"
       },
       {
+        productId: 6,
         name: "Gyoza",
         price: 20,
+        type: "complemento"
       },
       {
+        productId: 7,
         name: "Huevo",
         price: 15,
+        type: "complemento"
       },
       {
+        productId: 8,
         name: "Queso",
         price: 15,
+        type: "complemento"
       },
       {
+        productId: 9,
         name: "Cebollin",
         price: 5,
+        type: "complemento"
       },
       {
+        productId: 10,
         name: "Espinaca",
         price: 5,
+        type: "complemento"
       },
     ]);
   }

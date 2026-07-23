@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Counter from "./counter.js";
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -17,6 +18,8 @@ const productSchema = new mongoose.Schema({
     min: [0, "El precio no puede ser negativo"],
   },
 });
+
+productSchema.plugin(AutoIncrement, { inc_field: 'productId' });
 
 const Product = mongoose.model("Product", productSchema);
 

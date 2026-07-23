@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
+import mongooseSequence from "mongoose-sequence"
 
+const AutoIncrement = mongooseSequence(mongoose);
 const orderSchema = new mongoose.Schema(
   {
     client_id: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
@@ -63,6 +65,8 @@ const orderSchema = new mongoose.Schema(
     timestamps: { createdAt: "hora_creacion", updatedAt: "hora_actualizacion" },
   },
 );
+
+customerSchema.plugin(AutoIncrement, { inc_field: 'orderId' });
 
 const Order = mongoose.model("Order", orderSchema);
 

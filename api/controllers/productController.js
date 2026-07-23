@@ -2,11 +2,10 @@ import Product from "../models/product.js";
 
 const createProduct = async (req, res) => {
   try {
-    const { name, description, photo, price } = req.body;
+    const { name, type, price } = req.body;
     const product = new Product({
       name,
-      description,
-      photo,
+      type,
       price,
     });
     await product.save();
@@ -18,8 +17,8 @@ const createProduct = async (req, res) => {
 
 const getProductById = async (req, res) => {
   try {
-    const user = await Product.findOne({ id: req.params.id }).populate(
-      "id",
+    const user = await Product.findOne({ productId: req.params.id }).populate(
+      "productId",
       "name",
     );
     if (!user)
@@ -37,7 +36,7 @@ const getProducts = async (req, res) => {
       .sort({ [sort]: 1 })
       .limit(limit * 1)
       .skip((page - 1) * limit)
-      .populate("name");
+      .populate("productId","name");
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -47,11 +46,11 @@ const editProduct = async (req, res) => {
   try {
     const updates = req.body;
     const targetId = Number(req.params.id);
-    const product = await Product.findOneAndUpdate({ id: targetId }, updates, {
+    const product = await Product.findOneAndUpdate({ productId: targetId }, updates, {
       new: true,
     });
     if (!product)
-      return res.status(404).json({ message: "Producte no encontrado" });
+      return res.status(404).json({ message: "Producto no encontrado" });
     res.status(200).json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -60,10 +59,10 @@ const editProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findOneAndDelete({ id: req.params.id });
+    const product = await Product.findOneAndDelete({ productid: req.params.id });
     if (!product)
-      return res.status(404).json({ message: "Producte no encontrado" });
-    res.status(200).json({ message: "Producte eliminado" });
+      return res.status(404).json({ message: "Producto no encontrado" });
+    res.status(200).json({ message: "Producto eliminado" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
