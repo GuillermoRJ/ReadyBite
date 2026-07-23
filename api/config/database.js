@@ -79,12 +79,7 @@ const seedProducts = async () => {
     ];
 
     for (const product of InitProducts) {
-      try {
-        await Product.create(product);
-        console.log(`✅ ${product.name} guardado con éxito.`);
-      } catch (error) {
-        console.error(`❌ Falló al guardar ${product.name}:`, error.message);
-      }
+      await Product.create(product);
     }
   }
 };

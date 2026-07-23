@@ -1,28 +1,22 @@
 import Counter from "../models/counter.js";
 
 export const autoIncrementPlugin = (schema, options) => {
-  const i = options.inc_field || "id";
+  const incField = options.inc_field || 'id';
 
   schema.add({
-    [i]: { type: Number, unique: true },
+    [incField]: { type: Number, unique: true }
   });
 
-  schema.pre("save", async function (next) {
-    if (this.isNew) {
-      try {
-        const counter = await Counter.findOneAndUpdate(
-          { id: i },
-          { $inc: { seq: 1 } },
-          { new: true, upsert: true },
-        );
 
-        this[i] = counter.seq;
-        next();
-      } catch (error) {
-        next(error);
-      }
-    } else {
-      next();
+  schema.pre("save", async function () {
+    if (this.isNew) {
+      const counter = await Counter.findOneAndUpdate(
+        { id: incField },
+        { $inc: { seq: 1 } },
+        { returnDocument: "after", upsert: true }
+      );
+      
+      this[incField] = counter.seq;
     }
   });
 };
