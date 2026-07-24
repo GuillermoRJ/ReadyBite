@@ -1,67 +1,51 @@
 import mongoose from "mongoose";
-import { autoIncrementPlugin } from "../middlewares/autoIncrement.js";
+import { autoIncrementPlugin } from "../plugins/autoIncrement.js"; 
 
-const orderSchema = new mongoose.Schema(
-  {
-    client_id: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
+const orderSchema = new mongoose.Schema({
+  customer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Customer",
+    required: [true, "Toda orden debe estar asociada a un cliente"]
+  },
 
-    products: {
-      type: [
+  items: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+        required: [true, "Se debe agregar al menos 1 producto"]
+      },
+      addons: [
         {
-          _id: false,
-          producto_id: {
-            type: Schema.Types.ObjectId,
-            ref: "Producto",
-            required: true,
-          },
-          name: { type: String, required: true },
-          price: { type: Number, required: true },
-
-          description: {
-            required: true,
-          },
-        },
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product" 
+        }
       ],
-      complements: {
-        type: [
-          {
-            _id: false,
-            producto_id: {
-              type: Schema.Types.ObjectId,
-              ref: "Producto",
-              required: true,
-            },
-            name: { type: String, required: true },
-            price: { type: Number, required: true },
-
-            description: {
-              required: true,
-            },
-          },
-        ],
+      quantity: { 
+        type: Number, 
+        default: 1,
+        min: 1
       },
-      salsa: {
-        type: String,
-        enum: ["mitad", "toda", "ninguna"],
-        default: "toda",
-      },
-      validate: [
-        (v) => v.length > 0,
-        "La orden debe tener al menos un producto",
-      ],
-    },
+      subTotal: { 
+        type: Number, 
+        required: true
+      }
+    }
+  ],
+  totalAmount: {
+    type: Number,
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ["pendiente","completada", "cancelada"],
+    default: "pendiente"
+  }
+}, {
+  timestamps: true 
+});
 
-    total_order: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-  },
-  {
-    timestamps: { createdAt: "hora_creacion", updatedAt: "hora_actualizacion" },
-  },
-);
-orderSchema.plugin(autoIncrementPlugin, { inc_field: "orderId" });
+autoIncrementPlugin(orderSchema, { inc_field: 'orderId' });
 
 const Order = mongoose.model("Order", orderSchema);
 
